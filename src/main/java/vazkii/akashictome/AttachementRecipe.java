@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import vazkii.arl.util.ItemNBTHelper;
 
 public class AttachementRecipe extends SpecialRecipe {
 
@@ -64,10 +65,15 @@ public class AttachementRecipe extends SpecialRecipe {
 
 		CompoundNBT morphData = cmp.getCompound(MorphingHandler.TAG_TOME_DATA);
 		String mod = MorphingHandler.getModFromStack(target);
+		String modClean = mod;
+		int iter = 1;
+		
+		while(morphData.contains(mod)) {
+			mod = modClean + iter;
+			iter++;
+		}
 
-		if(morphData.contains(mod))
-			return ItemStack.EMPTY;
-
+		ItemNBTHelper.setString(target, MorphingHandler.TAG_ITEM_DEFINED_MOD, mod);
 		CompoundNBT modCmp = new CompoundNBT();
 		target.write(modCmp);
 		morphData.put(mod, modCmp);

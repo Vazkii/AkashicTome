@@ -120,7 +120,7 @@ public final class MorphingHandler {
 	}
 
 	public static ItemStack makeMorphedStack(ItemStack currentStack, String targetMod, CompoundNBT morphData) {
-		String currentMod = getModFromStack(currentStack);
+		String currentMod = ItemNBTHelper.getString(currentStack, TAG_ITEM_DEFINED_MOD, getModFromStack(currentStack));
 
 		CompoundNBT currentCmp = new CompoundNBT();
 		currentStack.write(currentCmp);
